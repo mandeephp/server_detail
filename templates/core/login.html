@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantx Technology Dashboard Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            background-color: white;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-control, .form-select {
+            background-color: #f0f0f0;
+            border: none;
+            height: 50px;
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background-color: #3b95d3;
+            color: #052e47;
+            font-weight: 600;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #03568c;
+            color: #052e47;
+        }
+
+        .logo {
+            max-width: 250px;
+        }
+
+        .login_heading {
+            color: #0a0b0d;
+            font-size: 40px;
+            font-weight: 800;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-label {
+            color: #777777;
+        }
+        #custom-redirect {
+            display: none;
+        }
+    </style>
+</head>
+<body class="flex align-items-center justify-content-center">
+<div class="main-container">
+    <div class="logo-container">
+        <img src='{% static 'assets/images/QUANTX-LOGO.png' %}' alt="Quantx Technology Logo"
+             class="img-fluid mb-4 logo">
+    </div>
+    <form class="login-container" method="post">
+        {% csrf_token %}
+        <h4 id="dashboard" class="text-center mb-4" style="color: #052e47">DASHBOARD</h4>
+
+        <h2 id="login" class="text-center mb-4 login_heading">Login</h2>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">USER NAME</label>
+            <input type="text" id="username" name="username" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">PASSWORD</label>
+            <input type="password" name="password" id="password" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="redirect" class="form-label">REDIRECT TO</label>
+            <select name="redirect" id="redirect" class="form-select">
+                <option value="orms_dashboard">ORMS Dashboard</option>
+                <option value="strategy_dashboard">Strategy Dashboard</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Log in</button>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+ 
+</script>
+</body>
+</html>

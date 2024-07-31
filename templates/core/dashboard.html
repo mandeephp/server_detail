@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">ORM Dashboard</h1>
+
+        <select id="orm-dropdown" class="form-select">
+            <option value="">Select</option>
+            {% for orms in orms_data %}
+                <option value="{{ orms.id }}">{{ orms.name }}: {{ orms.servermetric_set.count }} servers</option>
+            {% endfor %}
+        </select>
+
+        <div class="table-responsive">
+            <table id="orm-data" class="table table-striped" style="display: none;">
+                <thead>
+                <tr>
+                    <th>ServerName</th>
+                    <th>Starttime</th>
+                    <th>M2M</th>
+                    <th>TotalPOS</th>
+                    <th>Delta</th>
+                    <th>Scripts</th>
+                    <th>Streams</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for server in server_details %}
+                    <tr class="server-row {{ server.orms }}" style="display: none; cursor: pointer"
+                        data-server-id="{{ server.id }}">
+                        <td class="server-cell">{{ server.server }}</td>
+                        <td class="server-cell">{{ server.start_time|time:"H:i:s" }}</td>
+                        <td class="server-cell">
+                            <span data-bs-toggle="tooltip" data-bs-html="true"
+                                  title="Realised: {{ server.realised }}">{{ server.m2m }}</span>
+                        </td>
+                        <td class="server-cell">
+                            <span data-bs-toggle="tooltip" data-bs-html="true"
+                                  title="CE: {{ server.cepos }}<br>PE: {{ server.pepos }}<br>Fut: {{ server.fut_pos }}<br>Equity: {{ server.equity }}">
+                                {{ server.total_pos }}
+                            </span>
+                        </td>
+                        <td class="server-cell">{{ server.delta }}</td>
+                        <td class="server-cell">{{ server.scripts }}</td>
+                        <td class="server-cell">{{ server.streams }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="additional-details" class="row mt-4"></div>
+    </div>
+{% endblock content %}
+{% block extrascript %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ormDropdown = document.getElementById('orm-dropdown');
+            const ormDataTable = document.getElementById('orm-data');
+            const serverRows = document.querySelectorAll('.server-row');
+            const additionalDetailsDiv = document.getElementById('additional-details');
+            const serverDetails = {{ server_details_json|safe }};
+
+            ormDropdown.addEventListener('change', function (event) {
+                const selectedORM = event.target.value;
+                if (selectedORM) {
+                    ormDataTable.style.display = 'table';
+                    serverRows.forEach(row => {
+                        if (row.classList.contains(selectedORM)) {
+                            row.style.display = 'table-row';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                } else {
+                    ormDataTable.style.display = 'none';
+                }
+
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
+            });
+
+            serverRows.forEach(row => {
+                row.addEventListener('click', function () {
+                    const serverId = row.getAttribute('data-server-id');
+                    const existingDetailTable = document.querySelector(`#detail-table-${serverId}`);
+
+                    // Determine if the screen size is desktop or mobile
+                    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
+                    if (!existingDetailTable) {
+                        const server = serverDetails.find(s => s.id == serverId);
+
+                        const serverDetailsHtml = `
+            <div class="col-md-4 mb-3" id="detail-table-${serverId}">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Details for ${server.server}</span>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="removeDetailTable('${serverId}')">X</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td>Server</td>
+                                    <td>${server.server}</td>
+                                </tr>
+                                <tr>
+                                    <td>StartTime</td>
+                                    <td>${server.start_time}</td>
+                                </tr>
+                                <tr>
+                                    <td>ORMS</td>
+                                    <td>${server.orms__name}</td>
+                                </tr>
+                                <tr>
+                                    <td>M2M</td>
+                                    <td>${server.m2m}</td>
+                                </tr>
+                                <tr>
+                                    <td>Realised</td>
+                                    <td>${server.realised}</td>
+                                </tr>
+                                <tr>
+                                    <td>CEPos</td>
+                                    <td>${server.cepos}</td>
+                                </tr>
+                                <tr>
+                                    <td>PEPos</td>
+                                    <td>${server.pepos}</td>
+                                </tr>
+                                <tr>
+                                    <td>FutPos</td>
+                                    <td>${server.fut_pos}</td>
+                                </tr>
+                                <tr>
+                                    <td>TotalPos</td>
+                                    <td>${server.total_pos}</td>
+                                </tr>
+                                <tr>
+                                    <td>Delta</td>
+                                    <td>${server.delta}</td>
+                                </tr>
+                                <tr>
+                                    <td>Streams</td>
+                                    <td>${server.streams}</td>
+                                </tr>
+                                <tr>
+                                    <td>StreamNumber</td>
+                                    <td>${server.stream_number}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
+                        additionalDetailsDiv.insertAdjacentHTML('beforeend', serverDetailsHtml);
+
+                        // Get the newly added table
+                        const newDetailTable = document.querySelector(`#detail-table-${serverId}`);
+
+                        // Scroll to the new table if it's not in view
+                        if (newDetailTable) {
+                            const rect = newDetailTable.getBoundingClientRect();
+                            const isInViewport = (
+                                rect.top >= 0 &&
+                                rect.left >= 0 &&
+                                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                            );
+
+                            if (!isInViewport) {
+                                newDetailTable.scrollIntoView({behavior: 'smooth', block: 'start'});
+                            }
+                        }
+                    } else {
+                        if (isDesktop) {
+                            existingDetailTable.remove();
+                        } else {
+                            existingDetailTable.scrollIntoView({behavior: 'smooth', block: 'start'});
+                        }
+                    }
+                });
+            });
+
+        });
+
+        function removeDetailTable(serverId) {
+            const detailTable = document.getElementById(`detail-table-${serverId}`);
+            if (detailTable) {
+                detailTable.remove();
+            }
+        }
+    </script>
+{% endblock extrascript %}
+
+</body>
+</html>
