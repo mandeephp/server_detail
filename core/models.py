@@ -28,7 +28,7 @@ class ServerMetric(models.Model):
     stream_number = models.IntegerField(null=True, blank=True, db_column='StreamNumber')
 
     class Meta:
-        db_table = 'Date21072024'
+        db_table = 'server_metrics'
 
     def __str__(self):
         return f"{self.server} - {self.start_time}"
@@ -76,6 +76,7 @@ class Setup(models.Model):
 
     class Meta:
         verbose_name_plural = 'Setup'
+        db_table = '20240813'
         managed = False
 
     def __str__(self):
