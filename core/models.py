@@ -32,3 +32,51 @@ class ServerMetric(models.Model):
 
     def __str__(self):
         return f"{self.server} - {self.start_time}"
+
+
+class Setup(models.Model):
+    MOSL_CHOICES = [
+        ('MOSL', 'MOSL'),
+        ('DB', 'DB'),
+        ('grd', 'GRD'),
+        ('gvt', 'GVT'),
+        ('master', 'MASTER'),
+    ]
+    mosl = models.CharField(max_length=50, choices=MOSL_CHOICES)
+    server = models.CharField(max_length=50, null=True, blank=True, db_column='Server')
+    start_time = models.DateTimeField(db_column='StartTime', null=True, blank=True)
+    expiry_date = models.DateTimeField(db_column='ExpiryDate', null=True, blank=True)
+    ats = models.BooleanField(default=False, db_column="ATS")
+    no_of_foid_logged_in = models.CharField(max_length=50, null=True, blank=True, db_column='NoOfFoidLoggedIn')
+    order_fired = models.CharField(max_length=50, null=True, blank=True, db_column='OrderFired')
+    trades = models.CharField(max_length=50, null=True, blank=True, db_column='Trades')
+    dc_trades = models.CharField(max_length=50, null=True, blank=True, db_column='DCTrades')
+    scripts_loaded = models.CharField(max_length=50, null=True, blank=True, db_column='ScriptsLoaded')
+    contract_file_date = models.DateField(null=True, blank=True, db_column='ContractFileDate')
+    stream_id_file_date = models.DateField(null=True, blank=True, db_column='StreamIDFileDate')
+    fcast = models.CharField(max_length=100, null=True, blank=True, db_column='Fcast')
+    highest_temperature = models.CharField(max_length=50, null=True, blank=True, db_column='HighestTemperature')
+    recovery = models.CharField(max_length=50, null=True, blank=True, db_column='Recovery')
+    stream_id1_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID1_Lastsequence')
+    stream_id1_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID1_Livesequence')
+    stream_id2_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID2_Lastsequence')
+    stream_id2_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID2_Livesequence')
+    stream_id3_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID3_Lastsequence')
+    stream_id3_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID3_Livesequence')
+    stream_id4_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID4_Lastsequence')
+    stream_id4_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID4_Livesequence')
+    stream_id5_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID5_Lastsequence')
+    stream_id5_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID5_Livesequence')
+    stream_id6_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID6_Lastsequence')
+    stream_id6_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID6_Livesequence')
+    stream_id7_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID7_Lastsequence')
+    stream_id7_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID7_Livesequence')
+    stream_id8_lastsequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID8_Lastsequence')
+    stream_id8_livesequence = models.CharField(max_length=50, null=True, blank=True, db_column='StreamID8_Livesequence')
+
+    class Meta:
+        verbose_name_plural = 'Setup'
+        managed = False
+
+    def __str__(self):
+        return self.server

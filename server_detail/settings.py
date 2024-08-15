@@ -77,18 +77,22 @@ WSGI_APPLICATION = "server_detail.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'serverstats',
+        'USER': 'root',
+        'PASSWORD': 'QtXTECH',
+        'HOST': '182.77.61.108',  # Or an IP Address that your DB is hosted on
+        'PORT': '44659'
     }
 }
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'DB1',
-#         'USER': 'DB_USER',
-#         'PASSWORD': 'DB_PASSWORD',
+#         'NAME': 'serverstats',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
 #         'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
 #         'PORT': '3306'
 #     }

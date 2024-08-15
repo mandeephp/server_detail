@@ -14,10 +14,6 @@ __pycache__/
 # Media files
 /media/
 
-# Static files
-/static/
-
-
 # macOS
 .DS_Store
 
