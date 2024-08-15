@@ -4,54 +4,61 @@
 <div class="container">
     <h1 class="text-center mb-4">SetUp Dashboard</h1>
 
-    <select id="orm-dropdown" class="form-select mb-3">
-        <option value="all">All</option>
-        {% for aggregate in setup_aggregates %}
-            <option value="{{ aggregate.mosl }}">{{ aggregate.mosl|upper }} ({{ aggregate.count }})</option>
-        {% endfor %}
-    </select>
+    {% if table_available %}
+        <select id="orm-dropdown" class="form-select mb-3">
+            <option value="all">All</option>
+            {% for aggregate in setup_aggregates %}
+                <option value="{{ aggregate.mosl }}">{{ aggregate.mosl|upper }} ({{ aggregate.count }})</option>
+            {% endfor %}
+        </select>
 
-    <div class="table-responsive">
-        <table id="orm-data" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Server Name</th>
-                    <th>Start Time</th>
-                    <th>Expiry Date</th>
-                    <th>ATS</th>
-                    <th>NSEFOID Status</th>
-                    <th>NesFOTBT Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in setup_data %}
-                <tr class="server-row {{ item.setup.mosl }}">
-                    <td>{{ forloop.counter }}</td>
-                    <td class="server-cell" style="background-color: {% if item.setup.server %}#FFFF80{% else %}transparent{% endif %};">
-                        {{ item.setup.server }}
-                    </td>
-                    <td class="server-cell" style="background-color: {% if item.setup.start_time %}#FFFF80{% else %}transparent{% endif %};">
-                        {{ item.setup.start_time}}
-                    </td>
-                    <td class="server-cell" style="background-color: {{ item.setup.expiry_color }};">
-                        {{ item.setup.expiry_date }}
-                    </td>
-                    <td class="server-cell" style="background-color: {% if item.setup.ats %}#bbebbb{% else %}#e39195{% endif %};">
-                        {{ item.setup.ats }}
-                    </td>
-                    <td class="server-cell status-cell nsefoid-cell" style="cursor: pointer;" data-setup-id="{{ item.setup.id }}">
-                        NSEFOID <span class="toggle-icon">+</span>
-                    </td>
-                    <td class="server-cell status-cell nesfotbt-cell" style="cursor: pointer;" data-setup-id="{{ item.setup.id }}">
-                        NesFOTBT <span class="toggle-icon">+</span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        <div class="table-responsive">
+            <table id="orm-data" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Server Name</th>
+                        <th>Start Time</th>
+                        <th>Expiry Date</th>
+                        <th>ATS</th>
+                        <th>NSEFOID Status</th>
+                        <th>NesFOTBT Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in setup_data %}
+                    <tr class="server-row {{ item.setup.mosl }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td class="server-cell" style="background-color: {% if item.setup.server %}#FFFF80{% else %}transparent{% endif %};">
+                            {{ item.setup.server }}
+                        </td>
+                        <td class="server-cell" style="background-color: {% if item.setup.start_time %}#FFFF80{% else %}transparent{% endif %};">
+                            {{ item.setup.start_time}}
+                        </td>
+                        <td class="server-cell" style="background-color: {{ item.setup.expiry_color }};">
+                            {{ item.setup.expiry_date }}
+                        </td>
+                        <td class="server-cell" style="background-color: {% if item.setup.ats %}#bbebbb{% else %}#e39195{% endif %};">
+                            {{ item.setup.ats }}
+                        </td>
+                        <td class="server-cell status-cell nsefoid-cell" style="cursor: pointer;" data-setup-id="{{ item.setup.id }}">
+                            NSEFOID <span class="toggle-icon">+</span>
+                        </td>
+                        <td class="server-cell status-cell nesfotbt-cell" style="cursor: pointer;" data-setup-id="{{ item.setup.id }}">
+                            NesFOTBT <span class="toggle-icon">+</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            {{ message  }}☹
+        </div>
+    {% endif %}
 </div>
+
 {% endblock content %}
 
 {% block extrascript %}

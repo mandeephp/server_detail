@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'QtXTECH',
         'HOST': '182.77.61.108',  # Or an IP Address that your DB is hosted on
-        'PORT': '44659'
+        'PORT': '44679'
     }
 }
 
