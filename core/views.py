@@ -69,6 +69,9 @@ def table_exists(table_name):
 
 @login_required(login_url='login')
 def setup_dashboard(request):
+    from django.db import connections
+    conn = connections['default']
+    conn.connect()
     SetupModel = Setup
     now = datetime.now()
     table_name = now.strftime('%Y%m%d')
