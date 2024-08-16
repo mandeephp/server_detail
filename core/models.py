@@ -76,7 +76,6 @@ class Setup(models.Model):
 
     class Meta:
         verbose_name_plural = 'Setup'
-        db_table = '20240813'
         managed = False
 
     def __str__(self):
