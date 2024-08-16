@@ -90,7 +90,7 @@ def setup_dashboard(request):
                     })
 
     SetupModel._meta.db_table = table_name
-    setup_aggregates = Setup.objects.values('mosl').annotate(count=Count('id'))
+    setup_aggregates = Setup.objects.values('server_dropdown').annotate(count=Count('id'))
     setup_data = []
     setups = SetupModel.objects.all()
 
@@ -107,7 +107,7 @@ def setup_dashboard(request):
         setup_data.append({
             'setup': {
                 'id': setup.id,
-                'mosl': setup.mosl,
+                'mosl': setup.server_dropdown,
                 'server': setup.server,
                 'start_time': setup.start_time if setup.start_time else None,
                 'expiry_date': setup.expiry_date if setup.expiry_date else None,

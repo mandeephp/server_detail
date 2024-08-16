@@ -8,7 +8,7 @@
         <select id="orm-dropdown" class="form-select mb-3">
             <option value="all">All</option>
             {% for aggregate in setup_aggregates %}
-                <option value="{{ aggregate.mosl }}">{{ aggregate.mosl|upper }} ({{ aggregate.count }})</option>
+                <option value="{{ aggregate.server_dropdown }}">{{ aggregate.server_dropdown|upper }} ({{ aggregate.count }})</option>
             {% endfor %}
         </select>
 
