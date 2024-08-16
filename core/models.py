@@ -42,7 +42,7 @@ class Setup(models.Model):
         ('gvt', 'GVT'),
         ('master', 'MASTER'),
     ]
-    mosl = models.CharField(max_length=50, choices=MOSL_CHOICES, db_column='Setup')
+    server_dropdown = models.CharField(max_length=50, choices=MOSL_CHOICES, db_column='Setup')
     server = models.CharField(max_length=50, null=True, blank=True, db_column='Server')
     start_time = models.DateTimeField(db_column='StartTime', null=True, blank=True)
     expiry_date = models.DateTimeField(db_column='ExpiryDate', null=True, blank=True)
