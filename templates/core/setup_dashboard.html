@@ -3,7 +3,9 @@
 
 <div class="container">
     <h1 class="text-center mb-4">SetUp Dashboard</h1>
-
+    {% if table_name %}
+        <h4 class="text-center mb-4">Currently showing data from table <span style="color: #3b95d3;">{{ table_name }}</span></h4>
+    {% endif %}
     {% if table_available %}
         <select id="orm-dropdown" class="form-select mb-3">
             <option value="all">All</option>

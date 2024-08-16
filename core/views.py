@@ -147,5 +147,6 @@ def setup_dashboard(request):
         'setup_aggregates': setup_aggregates,
         'setup_data': setup_data,
         'setup_data_json': setup_data_json,
-        'table_available': True
+        'table_available': True,
+        'table_name':table_name
     })
