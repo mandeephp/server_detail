@@ -33,10 +33,10 @@
                             {{ item.setup.server }}
                         </td>
                         <td class="server-cell" style="background-color: {% if item.setup.start_time %}#FFFF80{% else %}transparent{% endif %};">
-                            {{ item.setup.start_time}}
+                            {{ item.setup.start_time|date:"Y-m-d H:i:s" }}
                         </td>
                         <td class="server-cell" style="background-color: {{ item.setup.expiry_color }};">
-                            {{ item.setup.expiry_date }}
+                            {{ item.setup.expiry_date|date:"Y-m-d H:i:s" }}
                         </td>
                         <td class="server-cell" style="background-color: {% if item.setup.ats %}#bbebbb{% else %}#e39195{% endif %};">
                             {{ item.setup.ats }}
