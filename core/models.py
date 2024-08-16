@@ -78,6 +78,17 @@ class Setup(models.Model):
     class Meta:
         verbose_name_plural = 'Setup'
         managed = False
+        abstract = True
+
+    @classmethod
+    def for_table(cls, table_name):
+        return type(f'Setup_{table_name}', (cls,), {
+            '__module__': cls.__module__,
+            'Meta': type('Meta', (), {
+                'db_table': table_name,
+                'managed': False
+            })
+        })
 
     def __str__(self):
         return self.server

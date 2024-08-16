@@ -69,10 +69,6 @@ def table_exists(table_name):
 
 @login_required(login_url='login')
 def setup_dashboard(request):
-    from django.db import connections
-    conn = connections['default']
-    conn.connect()
-    SetupModel = Setup
     now = datetime.now()
     table_name = now.strftime('%Y%m%d')
     check = 0
@@ -92,8 +88,8 @@ def setup_dashboard(request):
                               'table_available': False
                     })
 
-    SetupModel._meta.db_table = table_name
-    setup_aggregates = Setup.objects.values('server_dropdown').annotate(count=Count('id'))
+    SetupModel = Setup.for_table(table_name)
+    setup_aggregates = SetupModel.objects.values('server_dropdown').annotate(count=Count('id'))
     setup_data = []
     setups = SetupModel.objects.all()
 
